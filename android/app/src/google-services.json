@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "921573284303",
+    "project_id": "con-so-injoy",
+    "storage_bucket": "con-so-injoy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921573284303:android:943cd07cced8a07deadaba",
+        "android_client_info": {
+          "package_name": "com.example.game_injoy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921573284303-hn27pg5346silfn3sdb2svgfbbp5f66m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.game_injoy",
+            "certificate_hash": "5670b1eecde5a054b72fb700c79ebb3ecd8136aa"
+          }
+        },
+        {
+          "client_id": "921573284303-mi1qli75euma01j206jud4fbldhq1s1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhwmITYnNE2S5bXiANlHqOSz1-TCuhnXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921573284303-mi1qli75euma01j206jud4fbldhq1s1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
