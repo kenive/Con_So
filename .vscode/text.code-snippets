@@ -1,0 +1,18 @@
+{
+    "gen-text": {
+        "prefix": "gen-text",
+        "body": [
+            "Text(",
+            " '' ,",
+            "style: Theme.of(context)",
+            "  .textTheme",
+            " .bodyLarge!",
+            " .copyWith(",
+            "   fontWeight: FontWeight.bold,",
+            " color: AppColors.colorTextBlack,",
+            "  ),",
+            ")"
+        ],
+        "description": ""
+    }
+}

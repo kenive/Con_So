@@ -4,8 +4,7 @@ class OnePeopleLogic extends ChangeNotifier {
   late BuildContext context;
   OnePeopleLogic({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      String value = ModalRoute.of(context)!.settings.arguments as String;
-      xuLyRanDom(int.parse(value));
+      timSo();
     });
   }
 
@@ -16,8 +15,76 @@ class OnePeopleLogic extends ChangeNotifier {
   List<int> test = [];
 
   List<bool> checkOpen = [];
+  TextEditingController txtSL = TextEditingController();
 
   final random = Random();
+  void timSo() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: AppColors.white,
+            title: Text(
+              'Nhập số lượng ô',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.colorTextBlack,
+                  ),
+            ),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    controller: txtSL,
+                    keyboardType: TextInputType.number,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      child: Text(
+                        'Đồng ý',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.colorTextBlack,
+                            ),
+                      ),
+                      onPressed: () {
+                        // xuLyTimSo();
+                        if (txtSL.text.isEmpty) {
+                          Helper.showSnackBar('Không đc bỏ trống', context);
+                          return;
+                        }
+                        xuLyRanDom(int.parse(txtSL.text));
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      child: Text(
+                        'Về trang chủ',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.colorTextBlack,
+                            ),
+                      ),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        NavigationService.gotoAppStack();
+                        // // txtSL.clear();
+                        // Navigator.of(context).pop();
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   void xuLyRanDom(int sl) {
     checkOpen = List.filled(sl, false);

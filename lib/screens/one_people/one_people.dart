@@ -2,8 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:game_injoy/helper/helper.dart';
 import 'package:provider/provider.dart';
 
+import '../../packages/navigator.dart';
 import '../../themes/app_colors.dart';
 
 part 'one_people_logic.dart';
@@ -29,55 +31,68 @@ class _OnePeopleState extends State<OnePeople> {
       value: logic,
       child: Consumer<OnePeopleLogic>(builder: (context, value, _) {
         return Scaffold(
-          appBar: AppBar(title: Text(value.kq.toString()), actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: InkWell(
-                child: PopupMenuButton(
-                  offset: const Offset(-23, kToolbarHeight),
-                  child: const Icon(
-                    Icons.settings,
-                    color: AppColors.white,
-                    size: 30,
-                  ),
-                  onSelected: (value) {
-                    logic.setting(value);
-                  },
-                  itemBuilder: (_) {
-                    return [
-                      const PopupMenuItem(
-                          value: 0, child: Text('Về trang chủ')),
-                      const PopupMenuItem(
-                          value: 1,
-                          child: Text(
-                            'Reset',
-                            style: TextStyle(),
-                          )),
-                    ];
-                  },
-                ),
+          appBar: AppBar(
+              elevation: 1,
+              bottomOpacity: 0,
+              backgroundColor: AppColors.purpleBlueBold,
+              title: Text(
+                'Tìm số ngẫu nhiên',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                    ),
               ),
-            ),
-            // IconButton(onPressed: () {}, icon: Icon(Icons.settings))
-          ]),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: InkWell(
+                    child: PopupMenuButton(
+                      offset: const Offset(-23, kToolbarHeight),
+                      child: const Icon(
+                        Icons.settings,
+                        color: AppColors.white,
+                        size: 30,
+                      ),
+                      onSelected: (value) {
+                        logic.setting(value);
+                      },
+                      itemBuilder: (_) {
+                        return [
+                          const PopupMenuItem(
+                              value: 0, child: Text('Về trang chủ')),
+                          const PopupMenuItem(
+                              value: 1,
+                              child: Text(
+                                'Reset',
+                                style: TextStyle(),
+                              )),
+                        ];
+                      },
+                    ),
+                  ),
+                ),
+                // IconButton(onPressed: () {}, icon: Icon(Icons.settings))
+              ]),
           backgroundColor: AppColors.white,
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(10),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              const Text(
-                'Con số cần tìm',
-                style: TextStyle(fontSize: 20),
-              ),
-              Text(
-                value.kq.toString(),
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+              if (value.kq != 0) ...[
+                const Text(
+                  'Con số cần tìm',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  value.kq.toString(),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
               GridView(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),

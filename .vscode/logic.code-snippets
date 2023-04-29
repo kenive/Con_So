@@ -1,0 +1,13 @@
+{
+    "gen-logic": {
+        "prefix": "gen-logic",
+        "body": [
+            "part of 'screen.dart';",
+            "class _ViewModel with ChangeNotifier {",
+            "  BuildContext context;",
+            "  _ViewModel({required this.context});",
+            "}"
+        ],
+        "description": ""
+    }
+}

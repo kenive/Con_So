@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../helper/helper.dart';
+import '../../packages/navigator.dart';
 import '../../themes/app_colors.dart';
 part 'two_people_logic.dart';
 
@@ -22,7 +24,7 @@ class _TwoPeoPleState extends State<TwoPeoPle> {
     logic = TwoPeoPleLogic(context: context);
   }
 
-  List get arg => ModalRoute.of(context)!.settings.arguments as List;
+  // List get arg => ModalRoute.of(context)!.settings.arguments as List;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +35,19 @@ class _TwoPeoPleState extends State<TwoPeoPle> {
           return Scaffold(
               backgroundColor: AppColors.white,
               appBar: AppBar(
+                backgroundColor: AppColors.purpleBlueBold,
+                elevation: 1,
+                bottomOpacity: 0,
                 actions: [
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: InkWell(
                       child: PopupMenuButton(
+                        color: AppColors.white,
                         offset: const Offset(-23, kToolbarHeight),
                         child: const Icon(
                           Icons.settings,
-                          color: AppColors.white,
+                          color: AppColors.black,
                           size: 30,
                         ),
                         onSelected: (value) {
@@ -69,7 +75,7 @@ class _TwoPeoPleState extends State<TwoPeoPle> {
                     Column(
                       children: [
                         Text(
-                          arg[1],
+                          value.nameUser1,
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -88,7 +94,7 @@ class _TwoPeoPleState extends State<TwoPeoPle> {
                     Column(
                       children: [
                         Text(
-                          arg[2],
+                          value.nameUser2,
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
