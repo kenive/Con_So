@@ -17,7 +17,13 @@ class LoginLogic with ChangeNotifier {
 
   TextEditingController txtMatKhauDangKy = TextEditingController();
 
+  TextEditingController txtName = TextEditingController();
+
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  DateTime date = DateTime.now();
+
+  bool checkShowPass = true;
 
   Future<void> login() async {
     try {
@@ -45,15 +51,25 @@ class LoginLogic with ChangeNotifier {
 
   Future<void> dangKy() async {
     try {
+      if (txtEmailDangKy.text.isEmpty ||
+          txtMatKhauDangKy.text.isEmpty ||
+          txtName.text.isEmpty) {
+        FocusScope.of(context).unfocus();
+        Helper.showSnackBar('Không được bỏ trống', context);
+        return;
+      }
       FocusScope.of(context).unfocus();
+
       Loading.show();
       await auth
           .createUserWithEmailAndPassword(
               email: txtEmailDangKy.text, password: txtMatKhauDangKy.text)
           .then((value) async {
         if (value.user!.uid.isNotEmpty) {
+          String dateFormat = DateFormat('dd-MM-yyyy hh:mm:ss').format(date);
+
           DatabaseService(uid: value.user!.uid)
-              .savingUserData(value.user!.email!);
+              .savingUserData(value.user!.email!, txtName.text, dateFormat);
           clearDangKy();
           Loading.hide();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -97,6 +113,12 @@ class LoginLogic with ChangeNotifier {
   void clearDangKy() {
     txtEmailDangKy.clear();
     txtMatKhauDangKy.clear();
+    txtName.clear();
+    notifyListeners();
+  }
+
+  void showPass() {
+    checkShowPass = !checkShowPass;
     notifyListeners();
   }
 }

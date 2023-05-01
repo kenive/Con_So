@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:game_injoy/helper/helper.dart';
+import 'package:game_injoy/packages/update_user.dart';
 import 'package:game_injoy/routes/route.dart';
+import 'package:game_injoy/widgets/popup.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 import '../../themes/app_colors.dart';
-import '../../widgets/popup.dart';
 part 'home_page_logic.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             elevation: 1,
             backgroundColor: AppColors.purpleBlueBold,
             title: Text(
-              'Danh mục',
+              'Xin chào ${GetIt.instance<UserConfig>().data.name}',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: AppColors.white,
                   ),
@@ -53,7 +55,8 @@ class _HomePageState extends State<HomePage> {
                 (index) => InkWell(
                       onTap: () {
                         if (index == 0) {
-                          Navigator.pushNamed(context, AppRoutes.timSo);
+                          // Navigator.pushNamed(context, AppRoutes.timSo);
+                          popUpTimSo(context);
                         } else {
                           // logic.tongDiem();
                           Navigator.pushNamed(context, AppRoutes.tongDiem);

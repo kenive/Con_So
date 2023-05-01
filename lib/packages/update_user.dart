@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:game_injoy/model/user.dart';
 
 import '../helper/local_store.dart';
 
 class UserConfig with ChangeNotifier {
-  String data = '';
+  Users data = Users.userEmpty;
   UserConfig() {
     _initData();
   }
 
   void _initData() async {
-    data = LocalStorage().uuid;
+    data = LocalStorage().userInfo ?? Users.userEmpty;
     notifyListeners();
   }
 
-  void updateInfo(String uuid) {
-    data = uuid;
-    notifyListeners();
+  void updateInfo(Users info) {
+    data = info;
 
-    LocalStorage().setUuid(data);
+    LocalStorage().setInfoUser(data);
+
+    notifyListeners();
   }
 
   void reset() {
-    data = '';
+    data = Users.userEmpty;
     notifyListeners();
   }
 }

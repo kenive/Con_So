@@ -9,7 +9,7 @@ class TwoPeoPleLogic extends ChangeNotifier {
       // nameUser1 = value[1];
       // nameUser2 = value[2];
       // doKho = value[0];
-      tongDiem();
+       tongDiem();
     });
   }
 

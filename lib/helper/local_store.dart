@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/user.dart';
+
 class LocalStorage {
   static final LocalStorage _instance = LocalStorage._();
 
@@ -38,20 +40,20 @@ class LocalStorage {
 
   bool get firstLogin => store.getBool(LocalStorage.enableIntro) ?? false;
 
-  // Future<bool> setInfoUser(User? infoUser) {
-  //   if (infoUser == null) {
-  //     return store.remove(LocalStorage.info);
-  //   }
-  //   return store.setString(info, jsonEncode(infoUser.toJson()));
-  // }
+  Future<bool> setInfoUser(Users? infoUser) {
+    if (infoUser == null) {
+      return store.remove(LocalStorage.info);
+    }
+    return store.setString(info, jsonEncode(infoUser.toJson()));
+  }
 
-  // User? get userInfo {
-  //   String? userInfo = store.getString(info);
-  //   if (userInfo == null) {
-  //     return null;
-  //   }
-  //   return User.fromJson(jsonDecode(userInfo));
-  // }
+  Users? get userInfo {
+    String? userInfo = store.getString(info);
+    if (userInfo == null) {
+      return null;
+    }
+    return Users.fromJson(jsonDecode(userInfo));
+  }
 
   // setFcmToken(String token) {
   //   store.setString('fcm_token', token);

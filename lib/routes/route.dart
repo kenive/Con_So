@@ -47,9 +47,13 @@ class AppRoutes {
             ChangeNotifierProvider(
                 create: (context) => HomePageLogic(context: context)),
             ChangeNotifierProvider(
+                create: (context) => LoginLogic(context: context)),
+            ChangeNotifierProvider(
                 create: (context) => OnePeopleLogic(context: context)),
             ChangeNotifierProvider(
                 create: (context) => TwoPeoPleLogic(context: context)),
+            ChangeNotifierProvider(
+                create: (context) => OnePeopleLogic(context: context)),
           ],
           homePage: (_) => const Home(),
           timSo: (_) => const OnePeople(),

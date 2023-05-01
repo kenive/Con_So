@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:game_injoy/packages/update_user.dart';
+import 'package:get_it/get_it.dart';
 
 import '../helper/firebase.dart';
 import '../helper/local_store.dart';
+import '../model/user.dart';
 import '../packages/navigator.dart';
 
 enum AuthState { noLogin, login }
@@ -11,14 +16,17 @@ class AppVM with ChangeNotifier {
 
   bool get isLogin => authState == AuthState.login;
 
+  LocalStorage storage = LocalStorage();
+
   Future<void> middleWareHandle() async {
     await LocalStorage.init();
-
-    LocalStorage storage = LocalStorage();
 
     if (storage.uuid.isNotEmpty) {
       try {
         authState = AuthState.login;
+        // DatabaseService(uid: storage.uuid).gettingUserData().then((value) {
+        //   GetIt.instance<UserConfig>().updateInfo(value);
+        // });
         NavigationService.gotoAppStack();
         notifyListeners();
       } catch (e) {
@@ -32,13 +40,17 @@ class AppVM with ChangeNotifier {
 
   void loginSuccess(String uuid) async {
     // Save token
-    await LocalStorage().setUuid(uuid);
 
-    authState = AuthState.login;
+    DatabaseService(uid: uuid).gettingUserData().then((value) async {
+      GetIt.instance<UserConfig>().updateInfo(value);
+      await LocalStorage().setUuid(uuid);
 
-    notifyListeners();
-    // diều hướng vào màn hình trang chủ
-    NavigationService.gotoAppStack();
+      authState = AuthState.login;
+
+      // diều hướng vào màn hình trang chủ
+      NavigationService.gotoAppStack();
+      notifyListeners();
+    });
   }
 
   void logout() {
@@ -46,9 +58,14 @@ class AppVM with ChangeNotifier {
 
     LocalStorage().setUuid('');
 
+    storage.setInfoUser(null);
+
+    print(storage.userInfo.toString());
+
     AuthService().signOut();
 
     NavigationService.gotoAuth();
+
     notifyListeners();
   }
 }

@@ -4,6 +4,8 @@ import 'package:game_injoy/packages/app_vm.dart';
 import 'package:game_injoy/packages/nested_navigator.dart';
 import 'package:game_injoy/packages/update_user.dart';
 import 'package:game_injoy/routes/route.dart';
+import 'package:game_injoy/screens/login/login.dart';
+import 'package:game_injoy/screens/one_people/one_people.dart';
 import 'package:game_injoy/themes/themes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -25,11 +27,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => GetIt.instance.get<AppVM>(),
+          create: (_) => GetIt.instance.get<AppVM>(),
         ),
         ChangeNotifierProvider(
-          create: (context) => GetIt.instance.get<UserConfig>(),
+          create: (_) => GetIt.instance.get<UserConfig>(),
         ),
+        ChangeNotifierProvider(create: (_) => LoginLogic(context: context)),
       ],
       child: MaterialApp(
         title: 'Con Số',
