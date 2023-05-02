@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_injoy/screens/home_page/home_page.dart';
+import 'package:game_injoy/screens/ratings/rating.dart';
 import 'package:game_injoy/screens/setting/setting.dart';
 import 'package:game_injoy/themes/app_colors.dart';
 
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Widget> pageList = [
     const HomePage(),
+    const Rating(),
     const Setting(),
   ];
 

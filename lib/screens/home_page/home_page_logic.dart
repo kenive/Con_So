@@ -9,7 +9,7 @@ class HomePageLogic with ChangeNotifier {
 
   TextEditingController txtUser2 = TextEditingController();
 
-  List item = ['Tìm số', 'Tổng điểm'];
+  List item = ['Tìm số', 'Trí tuệ'];
 
   void choDo(int value) {
     if (txtUser1.text.isEmpty || txtUser2.text.isEmpty) {
@@ -62,7 +62,6 @@ class HomePageLogic with ChangeNotifier {
                         ),
                   ),
                   onPressed: () {
-                    print('object');
                     choDo(1);
                   },
                 ),

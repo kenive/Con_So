@@ -5,7 +5,6 @@ import 'package:game_injoy/packages/nested_navigator.dart';
 import 'package:game_injoy/packages/update_user.dart';
 import 'package:game_injoy/routes/route.dart';
 import 'package:game_injoy/screens/login/login.dart';
-import 'package:game_injoy/screens/one_people/one_people.dart';
 import 'package:game_injoy/themes/themes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';

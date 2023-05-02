@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:game_injoy/packages/app_vm.dart';
 import 'package:game_injoy/widgets/button_widget.dart';
 import 'package:get_it/get_it.dart';

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:game_injoy/screens/one_people/one_people.dart';
 import 'package:game_injoy/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../helper/helper.dart';
 import '../routes/route.dart';
+import '../screens/tim_so/tim_so.dart';
 import '../themes/app_colors.dart';
 
 void popUpTimSo(BuildContext context) {
-  var provider = Provider.of<OnePeopleLogic>(context, listen: false);
+  var provider = Provider.of<TimSoLogic>(context, listen: false);
   showModalBottomSheet(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(8))),
@@ -40,9 +41,9 @@ void popUpTimSo(BuildContext context) {
                           ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
-                    Selector<OnePeopleLogic, int>(
+                    Selector<TimSoLogic, int>(
                       selector: (p0, p1) => p1.valueSlider,
                       builder: (context, value, child) {
                         return Column(
@@ -113,7 +114,7 @@ void popUpTimSo(BuildContext context) {
                       },
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,7 +156,8 @@ void popUpTimSo(BuildContext context) {
                           },
                         )
                       ],
-                    )
+                    ),
+                    SizedBox(height: Helper.heightInsets(context))
                   ],
                 ),
               ),

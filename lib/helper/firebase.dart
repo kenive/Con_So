@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 import '../model/user.dart';
 
@@ -27,8 +28,19 @@ class DatabaseService {
       "email": email,
       "uid": uid,
       "score": 0,
-      // "timeEnd": '',
+      "time": ' ',
+      "soO": 0,
       "ngayTao": ngayTao,
+    });
+  }
+
+  Future updateUser(String time, int soO) async {
+    String dateFormat =
+        DateFormat('dd-MM-yyyy hh:mm:ss').format(DateTime.now());
+    return await userCollection.doc(uid).update({
+      "time": time,
+      "soO": soO,
+      'timeUpdate': dateFormat,
     });
   }
 

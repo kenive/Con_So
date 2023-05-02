@@ -26,9 +26,17 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Center(
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width / 2,
-              child: Image.asset('asset/icon_app.png'))),
+          child: Container(
+        width: MediaQuery.of(context).size.width / 2,
+        decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(
+                'asset/icon_app.png',
+              ),
+            )),
+      )),
     );
   }
 }

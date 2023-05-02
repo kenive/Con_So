@@ -55,10 +55,8 @@ class _HomePageState extends State<HomePage> {
                 (index) => InkWell(
                       onTap: () {
                         if (index == 0) {
-                          // Navigator.pushNamed(context, AppRoutes.timSo);
                           popUpTimSo(context);
                         } else {
-                          // logic.tongDiem();
                           Navigator.pushNamed(context, AppRoutes.tongDiem);
                         }
                       },

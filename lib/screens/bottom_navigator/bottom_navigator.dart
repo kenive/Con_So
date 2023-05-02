@@ -32,6 +32,18 @@ class BottomNavigation extends StatelessWidget {
           unselectedColor: AppColors.cursorColor,
         ),
         SalomonBottomBarItem(
+          icon: const Icon(Icons.star),
+          title: Text(
+            'Xếp hạng',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.purpleBlueBold,
+                ),
+          ),
+          selectedColor: AppColors.purpleBlueBold,
+          unselectedColor: AppColors.cursorColor,
+        ),
+        SalomonBottomBarItem(
           icon: const Icon(Icons.settings),
           title: Text(
             'Cài đặt',

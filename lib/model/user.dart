@@ -11,7 +11,9 @@ class Users {
 
   int score;
 
-  // String timeEnd;
+  int soO;
+
+  String time;
 
   String uid;
 
@@ -20,7 +22,8 @@ class Users {
       required this.name,
       required this.ngayTao,
       required this.score,
-      // required this.timeEnd,
+      required this.soO,
+      required this.time,
       required this.uid});
 
   factory Users.fromJson(Map<String, dynamic> json) => _$UsersFromJson(json);
@@ -28,6 +31,7 @@ class Users {
   Map<String, dynamic> toJson() => _$UsersToJson(this);
 
   static get userEmpty {
-    return Users(email: '', name: '', ngayTao: '', score: 0, uid: '');
+    return Users(
+        email: '', name: '', ngayTao: '', score: 0, uid: '', soO: 0, time: '');
   }
 }

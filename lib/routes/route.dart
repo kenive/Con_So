@@ -1,9 +1,10 @@
 import 'package:game_injoy/screens/home_page/home_page.dart';
-import 'package:game_injoy/screens/one_people/one_people.dart';
-import 'package:game_injoy/screens/two_people/two_people.dart';
+import 'package:game_injoy/screens/tim_so/tim_so.dart';
+import 'package:game_injoy/screens/tri_tue/tri_tue.dart';
 import 'package:provider/provider.dart';
 import '../screens/home.dart';
 import '../screens/login/login.dart';
+import '../screens/ratings/rating.dart';
 import '../screens/splash/splash.dart';
 
 class AppRoutes {
@@ -49,15 +50,15 @@ class AppRoutes {
             ChangeNotifierProvider(
                 create: (context) => LoginLogic(context: context)),
             ChangeNotifierProvider(
-                create: (context) => OnePeopleLogic(context: context)),
+                create: (context) => TimSoLogic(context: context)),
             ChangeNotifierProvider(
-                create: (context) => TwoPeoPleLogic(context: context)),
+                create: (context) => TriTueLogic(context: context)),
             ChangeNotifierProvider(
-                create: (context) => OnePeopleLogic(context: context)),
+                create: (context) => RatingLogic(context: context)),
           ],
           homePage: (_) => const Home(),
-          timSo: (_) => const OnePeople(),
-          tongDiem: (_) => const TwoPeoPle(),
+          timSo: (_) => const TimSo(),
+          tongDiem: (_) => const TriTue(),
         },
         auth: {
           login: (_) => const Login(),

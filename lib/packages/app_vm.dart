@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:game_injoy/packages/update_user.dart';
 import 'package:get_it/get_it.dart';
 
 import '../helper/firebase.dart';
 import '../helper/local_store.dart';
-import '../model/user.dart';
 import '../packages/navigator.dart';
 
 enum AuthState { noLogin, login }
@@ -24,11 +21,11 @@ class AppVM with ChangeNotifier {
     if (storage.uuid.isNotEmpty) {
       try {
         authState = AuthState.login;
-        // DatabaseService(uid: storage.uuid).gettingUserData().then((value) {
-        //   GetIt.instance<UserConfig>().updateInfo(value);
-        // });
-        NavigationService.gotoAppStack();
-        notifyListeners();
+        DatabaseService(uid: storage.uuid).gettingUserData().then((value) {
+          GetIt.instance<UserConfig>().updateInfo(value);
+          NavigationService.gotoAppStack();
+          notifyListeners();
+        });
       } catch (e) {
         debugPrint('$e');
       }
@@ -59,8 +56,6 @@ class AppVM with ChangeNotifier {
     LocalStorage().setUuid('');
 
     storage.setInfoUser(null);
-
-    print(storage.userInfo.toString());
 
     AuthService().signOut();
 

@@ -102,8 +102,8 @@ Route<dynamic>? _getRoute(dynamic pageRoute, RouteSettings settings) {
     return NestedNavigation(
       providers: providers ?? [],
       initRoute: initRoute ?? '${routes.keys.first}',
-      onGenerateRoute: (_settings) {
-        return generateRoute(_settings, routes as Map<String, dynamic>);
+      onGenerateRoute: (settings) {
+        return generateRoute(settings, routes as Map<String, dynamic>);
       },
     );
   }
