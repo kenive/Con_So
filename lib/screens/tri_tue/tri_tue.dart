@@ -1,15 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:game_injoy/helper/lst_cauhoi.dart';
 import 'package:game_injoy/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-
+import '../../cau_hoi/lst_cauhoi.dart';
 import '../../helper/helper.dart';
 import '../../packages/navigator.dart';
 import '../../themes/app_colors.dart';
+
 part 'tri_tue_logic.dart';
 
 class TriTue extends StatefulWidget {
@@ -28,6 +27,11 @@ class _TriTueState extends State<TriTue> {
     logic = TriTueLogic(context: context);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    logic.timer.cancel();
+  }
   // List get arg => ModalRoute.of(context)!.settings.arguments as List;
 
   @override
@@ -42,37 +46,66 @@ class _TriTueState extends State<TriTue> {
             bottomOpacity: 0,
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: AppColors.white,
+                          title: Text(
+                            "Bạn có thật sự muốn thoát không?",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                  color: AppColors.colorTextBlack,
+                                ),
+                          ),
+                          content: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ButtonWidget(
+                                  type: EButton.normal,
+                                  child: Text(
+                                    'Thoát',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.white,
+                                        ),
+                                  ),
+                                  onPressed: () {
+                                    logic.timer.cancel();
+                                    NavigationService.gotoAppStack();
+                                  }),
+                              ButtonWidget(
+                                  type: EButton.normal,
+                                  child: Text(
+                                    'Ở lại',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.white,
+                                        ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }),
+                            ],
+                          ),
+                        );
+                      });
                 },
                 icon: const Icon(
                   Icons.arrow_back_ios,
                   color: AppColors.white,
                 )),
             actions: [
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Số điểm',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.white,
-                            ),
-                      ),
-                      Text(
-                        '1000',
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.white,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-
               // Padding(
               //   padding: const EdgeInsets.only(right: 10),
               //   child: InkWell(
@@ -113,49 +146,150 @@ class _TriTueState extends State<TriTue> {
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(10),
-            child: Selector<TriTueLogic, Tuple2<Map<String, dynamic>?, int>>(
-              selector: (p0, p1) => Tuple2(p1.dataCauHoi, p1.id),
-              builder: (context, value, child) {
-                return Center(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: AppColors.black)),
-                    child: Center(
-                      child: Column(
-                         
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+            child: Column(
+              children: [
+                Selector<TriTueLogic, Tuple2<Map<String, dynamic>?, int>>(
+                  selector: (p0, p1) => Tuple2(p1.dataCauHoi, p1.countCauHoi),
+                  builder: (context, value, child) {
+                    return Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(width: 1, color: AppColors.black),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.grey.withOpacity(0.5),
+                            spreadRadius: 1.5,
+                            blurRadius: 3,
+                            offset: const Offset(
+                                0, 0.5), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Column(children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
-                              value.item1!['cau_hoi'],
+                            Column(
+                              children: [
+                                Text(
+                                  'Số điểm',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.black,
+                                      ),
+                                ),
+                                Selector<TriTueLogic, int>(
+                                  selector: (p0, p1) => p1.score,
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      value.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.red,
+                                          ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  'Thời gian',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.black,
+                                      ),
+                                ),
+                                Selector<TriTueLogic, int>(
+                                  selector: (p0, p1) => p1.start,
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      value.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.black,
+                                          ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          elevation: 2,
+                          color: AppColors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Text(
+                              'Câu ${value.item2 + 1}: ${value.item1!['cau_hoi']}',
+                              textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyLarge!
+                                  .bodyMedium!
                                   .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.colorTextBlack,
-                                  ),
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                      height: 1.5),
                             ),
-                            GridView(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              padding: const EdgeInsets.all(10),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                                childAspectRatio: 100 / 20,
-                                crossAxisCount: 2,
-                              ),
-                              children: List.generate(
-                                value.item1!['dap_an'].length,
-                                (index) => InkWell(
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GridView(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.all(10),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 100 / 20,
+                            crossAxisCount: 2,
+                          ),
+                          children: List.generate(
+                            value.item1!['dap_an'].length,
+                            (index) => Selector<TriTueLogic, bool>(
+                              selector: (p0, p1) => p1.checkDapAn[index],
+                              builder: (context, val, child) {
+                                return InkWell(
                                   onTap: () {
-                                    // value.selected(index);
+                                    if (logic.selected || logic.start == 0) {
+                                      return;
+                                    }
+                                    logic.selectedDapAn(
+                                        value.item1!['dap_an'][index]['status'],
+                                        index);
                                   },
                                   child: Container(
                                       decoration: BoxDecoration(
-                                          color: AppColors.primary,
+                                          color: val
+                                              ? AppColors.greenLight
+                                              : AppColors.white,
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           border: Border.all(
@@ -169,61 +303,130 @@ class _TriTueState extends State<TriTue> {
                                               .bodyLarge!
                                               .copyWith(
                                                 fontWeight: FontWeight.bold,
-                                                color: AppColors.white,
+                                                color: AppColors.black,
                                               ),
                                         ),
-                                        // child: Text(
-                                        //   value[0]['dap_an'][index]['name'],
-                                        //   style: const TextStyle(
-                                        //       color: AppColors.black,
-                                        //       fontSize: 18,
-                                        //       fontWeight: FontWeight.w700),
-                                        // ),
                                       )),
-                                  // child: Selector<OnePeopleLogic, List<bool>>(
-                                  //     selector: (p0, p1) => p1.checkOpen,
-                                  //     builder: (_, val, __) {
-                                  //       return Container(
-                                  //           decoration: BoxDecoration(
-                                  //               color:
-                                  //                   val[index] && value.kq == value.test[index]
-                                  //                       ? AppColors.primary
-                                  //                       : AppColors.backgroundColor,
-                                  //               borderRadius: BorderRadius.circular(10),
-                                  //               border: Border.all(
-                                  //                   width: 0.2, color: AppColors.black)),
-                                  //           child: Center(
-                                  //             child: Text(
-                                  //               val[index] ? value.test[index].toString() : '',
-                                  //               style: const TextStyle(
-                                  //                   color: AppColors.black,
-                                  //                   fontSize: 15,
-                                  //                   fontWeight: FontWeight.w500),
-                                  //             ),
-                                  //           ));
-                                  //     }),
-                                ),
-                              ),
+                                );
+                              },
                             ),
-                            ButtonWidget(
-                                onPressed: () {
-                                  logic.tiepTuc(++logic.id);
-                                },
-                                child: Text(
-                                  'Tiếp tục',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.white,
-                                      ),
-                                ))
-                          ]),
-                    ),
-                  ),
-                );
-              },
+                          ),
+                        ),
+                        Selector<TriTueLogic, Tuple2<bool, String>>(
+                            selector: (p0, p1) => Tuple2(p1.selected, p1.title),
+                            builder: (context, val, child) {
+                              if (val.item2.isNotEmpty) {
+                                return const SizedBox();
+                              }
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ButtonWidget(
+                                        type: EButton.normal,
+                                        primary:
+                                            val.item1 ? null : AppColors.grey,
+                                        onPressed: () {
+                                          if (val.item1) {
+                                            logic.chonLai();
+                                          }
+                                        },
+                                        child: Text(
+                                          'Chọn lại',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.white,
+                                              ),
+                                        )),
+                                    ButtonWidget(
+                                        type: EButton.normal,
+                                        primary: val.item1
+                                            ? AppColors.primary
+                                            : AppColors.grey,
+                                        onPressed: () {
+                                          // logic.tiepTuc();
+                                          if (val.item1) {
+                                            logic.tiepTuc();
+                                          }
+                                        },
+                                        child: Text(
+                                          'Đồng ý',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.white,
+                                              ),
+                                        ))
+                                  ],
+                                ),
+                              );
+                            })
+                      ]),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Selector<TriTueLogic, Tuple3<int, String, int>>(
+                  selector: (p0, p1) => Tuple3(p1.kq, p1.title, p1.score),
+                  builder: (context, value, child) {
+                    if (value.item1 == 0 && value.item2.isNotEmpty) {
+                      return Column(
+                        children: [
+                          Text(
+                            value.item2,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                  color: AppColors.colorTextBlack,
+                                ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Tổng điểm: ${value.item3}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.colorTextBlack,
+                                  ),
+                            ),
+                          ),
+                          ButtonWidget(
+                              child: Text(
+                                'Chơi lại',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.white,
+                                    ),
+                              ),
+                              onPressed: () {
+                                logic.xuLyCauHoi();
+                                logic.timeReset();
+                                logic.chonLai();
+                              }),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                )
+              ],
             ),
           )),
     );

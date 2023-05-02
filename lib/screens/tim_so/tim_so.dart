@@ -48,7 +48,6 @@ class _TimSoState extends State<TimSo> {
               leading: IconButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-
                     value.timer.cancel();
                     value.resetTimer();
                   },
