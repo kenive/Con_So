@@ -401,22 +401,22 @@ class DataCauHoi {
     },
     {
       "id": 18,
-      "cau_hoi": "Màu chủ đạo của tờ tiền Polymer mệnh giá 500.000 đồng là gì?",
+      "cau_hoi": "Đại Ngu là quốc hiệu của triều đại nào?",
       "dap_an": [
         {
-          'name': "Đỏ",
+          'name': "Triều Ngô",
           'status': 0,
         },
         {
-          'name': "Xanh",
+          'name': "Triều Hồ",
           'status': 1,
         },
         {
-          'name': "Vàng",
+          'name': "Các chúa Nguyễn",
           'status': 0,
         },
         {
-          'name': "Tím",
+          'name': "Nhà Tây Sơn",
           'status': 0,
         }
       ],
