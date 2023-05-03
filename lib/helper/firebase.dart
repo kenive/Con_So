@@ -31,6 +31,7 @@ class DatabaseService {
       "time": ' ',
       "soO": 0,
       "ngayTao": ngayTao,
+      'timeUpdate': '',
     });
   }
 
