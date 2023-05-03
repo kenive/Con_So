@@ -173,6 +173,16 @@ class TriTueLogic extends ChangeNotifier {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
+                  'Thời gian đã chơi: ${clock[3]}${clock[2]} : ${clock[1]}${clock[0]}',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.colorTextBlack,
+                      ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
                   'Tổng điểm: $score',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
