@@ -30,15 +30,44 @@ class TriTueLogic extends ChangeNotifier {
 
   late Timer timer;
 
+  late Timer timerAll;
+
   int start = 30;
+
+  List<int> clock = [0, 0, 0, 0];
+
+  void startTimerAll() {
+    const second = Duration(seconds: 1);
+    timerAll = Timer.periodic(
+      second,
+      (Timer timer) {
+        clock[0]++;
+        if (clock[0] == 10) {
+          clock[0] = 0;
+          clock[1]++;
+
+          if (clock[1] == 6) {
+            clock[1] = 0;
+            clock[2]++;
+
+            if (clock[2] == 10) {
+              clock[2] = 0;
+              clock[3]++;
+            }
+          }
+        }
+        notifyListeners();
+      },
+    );
+  }
 
   void startTimer() {
     const second = Duration(seconds: 1);
-
     timer = Timer.periodic(
       second,
       (Timer timer) {
         if (start == 0) {
+          timerAll.cancel();
           timer.cancel();
           showThongBao('Bạn đã hết thời gian', score);
         } else {
@@ -50,6 +79,8 @@ class TriTueLogic extends ChangeNotifier {
   }
 
   void xuLyCauHoi() {
+    startTimerAll();
+
     tampCauHoi = DataCauHoi().diaLy..shuffle();
 
     cauHoi = tampCauHoi.sublist(5, 20);
@@ -74,6 +105,7 @@ class TriTueLogic extends ChangeNotifier {
       title = 'Bạn đã chọn sai';
       selected = true;
       timer.cancel();
+      timerAll.cancel();
       checkDapAn = List.filled(4, false);
       notifyListeners();
       return;
@@ -84,6 +116,7 @@ class TriTueLogic extends ChangeNotifier {
     if (countCauHoi >= cauHoi.length) {
       score += 100;
       timer.cancel();
+      timerAll.cancel();
       notifyListeners();
       showThongBao('Chúc mừng bạn đã chiến thắng trò chơi', score);
       return;
@@ -92,8 +125,7 @@ class TriTueLogic extends ChangeNotifier {
       cauHoiId = cauHoi[countCauHoi];
       score += 100;
       dataCauHoi = chuyenDoi(cauHoiId!);
-
-      Helper.showSnackBar('Đáp án chính xác', context);
+      Helper.showToast('Đáp án chính xác', context);
 
       notifyListeners();
     }
@@ -116,6 +148,7 @@ class TriTueLogic extends ChangeNotifier {
 
   void timeReset() {
     start = 30;
+    clock = [0, 0, 0, 0];
     notifyListeners();
   }
 

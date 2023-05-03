@@ -27,6 +27,8 @@ class LoginLogic with ChangeNotifier {
 
   Future<void> login() async {
     try {
+      FocusScope.of(context).unfocus();
+
       Loading.show();
       await auth
           .signInWithEmailAndPassword(
@@ -37,14 +39,7 @@ class LoginLogic with ChangeNotifier {
       });
     } on FirebaseAuthException catch (e) {
       Loading.hide();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-        'Đăng nhập thất bại',
-        style: Theme.of(context)
-            .textTheme
-            .bodyLarge!
-            .copyWith(fontWeight: FontWeight.bold, color: AppColors.white),
-      )));
+      Helper.showToast('Đăng nhập thất bại', context);
       debugPrint('$e');
     }
   }
@@ -55,7 +50,7 @@ class LoginLogic with ChangeNotifier {
           txtMatKhauDangKy.text.isEmpty ||
           txtName.text.isEmpty) {
         FocusScope.of(context).unfocus();
-        Helper.showSnackBar('Không được bỏ trống', context);
+        Helper.showToast('Không được bỏ trống', context);
         return;
       }
       FocusScope.of(context).unfocus();
@@ -70,16 +65,13 @@ class LoginLogic with ChangeNotifier {
 
           DatabaseService(uid: value.user!.uid)
               .savingUserData(value.user!.email!, txtName.text, dateFormat);
+
           clearDangKy();
+
           Loading.hide();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-            'Đăng ký thành công',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold, color: AppColors.white),
-          )));
+
+          Helper.showToast('Đăng ký thành công', context);
+
           NavigationService.gotoAuth();
         }
       });
@@ -87,23 +79,9 @@ class LoginLogic with ChangeNotifier {
       FocusScope.of(context).unfocus();
       Loading.hide();
       if (e.code.contains('invalid-email')) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          'Email không đúng định dạng',
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(fontWeight: FontWeight.bold, color: AppColors.white),
-        )));
+        Helper.showToast('Email không đúng đinh dạng', context);
       } else if (e.code.contains('email-already-in-use')) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          'Email đã được đăng ký',
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(fontWeight: FontWeight.bold, color: AppColors.white),
-        )));
+        Helper.showToast('Email này đã được đăng ký', context);
       }
 
       debugPrint('$e');

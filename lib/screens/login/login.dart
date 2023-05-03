@@ -7,7 +7,7 @@ import 'package:game_injoy/themes/app_colors.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../helper/firebase.dart';
 import '../../packages/navigator.dart';
 import '../../widgets/button_widget.dart';

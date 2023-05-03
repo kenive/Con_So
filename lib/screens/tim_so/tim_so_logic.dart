@@ -11,6 +11,7 @@ class TimSoLogic extends ChangeNotifier {
   late Timer timer;
 
   int timeGiay = 0;
+
   int timePhut = 0;
 
   void resetTimer() {
@@ -170,8 +171,7 @@ class TimSoLogic extends ChangeNotifier {
       kq = 1 + random.nextInt((saveSL + 1) - 1);
       // HapticFeedback.mediumImpact();
       // SystemSound.play(SystemSoundType.click);
-
-      Helper.showSnackBar('Trúng rồi, tiếp tục chọn nào.', context);
+      Helper.showToast('Trúng rồi, tiếp tục chọn nào.', context);
       Loading.hide();
     } else {
       Loading.show();
