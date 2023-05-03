@@ -7,12 +7,14 @@ import 'package:game_injoy/routes/route.dart';
 import 'package:game_injoy/screens/login/login.dart';
 import 'package:game_injoy/themes/themes.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'configurationDependInjection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
   await configurationGetIt();
   runApp(const MyApp());

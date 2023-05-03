@@ -26,7 +26,7 @@ class _RatingState extends State<Rating> {
     return ChangeNotifierProvider.value(
       value: logic,
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundColor,
         appBar: AppBar(
           backgroundColor: AppColors.purpleBlueBold,
           elevation: 1,

@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     return ChangeNotifierProvider.value(
         value: logic,
         child: Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundColor,
           appBar: AppBar(
             elevation: 1,
             backgroundColor: AppColors.purpleBlueBold,
@@ -62,8 +62,18 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Container(
                           decoration: BoxDecoration(
-                              color: AppColors.backgroundColor,
-                              borderRadius: BorderRadius.circular(10)),
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.2,
+                                blurRadius: 1,
+                                offset: const Offset(
+                                    0, 1.5), // changes position of shadow
+                              ),
+                            ],
+                          ),
                           child: Center(
                             child: Text(
                               logic.item[index],

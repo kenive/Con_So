@@ -18,6 +18,8 @@ class BottomNavigation extends StatelessWidget {
       backgroundColor: AppColors.white,
       currentIndex: index,
       onTap: onTap,
+      itemShape: const StadiumBorder(
+          side: BorderSide(width: 0.3, color: AppColors.grey)),
       items: [
         SalomonBottomBarItem(
           icon: const Icon(Icons.home),
